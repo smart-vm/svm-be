@@ -3,12 +3,14 @@ class Transaction < ApplicationRecord
   belongs_to :slot
 
   validates :status, inclusion: { in: %w[pending paid dispensed failed] }
+  validates :uuid, presence: true, uniqueness: true
   
-  before_validation :set_default_status, on: :create
+  before_validation :set_defaults, on: :create
 
   private
 
-  def set_default_status
+  def set_defaults
     self.status ||= 'pending'
+    self.uuid ||= SecureRandom.uuid
   end
 end
