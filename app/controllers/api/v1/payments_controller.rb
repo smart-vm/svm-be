@@ -1,6 +1,6 @@
-class Api::V1::PaymentsController < ApplicationController
+class Api::V1::PaymentsController < ActionController::API
   # Skip CSRF check since this request originates from an external API provider
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
 
   def webhook
     transaction = Transaction.find_by(uuid: params[:transaction_uuid])
