@@ -9,23 +9,23 @@
     </div>
     
     <nav class="flex-1 px-4 mt-8 space-y-1">
-      <!-- Dashboard is now inactive -->
-      <a href="<%= root_path %>" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+      <a href="<%= root_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         Dashboard
       </a>
       
-      <!-- Machines is now ACTIVE -->
-      <a href="<%= machines_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
+      <a href="<%= machines_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
         Machines
       </a>
       
-      <a href="<%= inventories_path %>" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+      <a href="<%= inventories_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
         Inventory
       </a>
-      <a href="<%= transactions_path %>" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+
+      <!-- Transactions is now ACTIVE -->
+      <a href="<%= transactions_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
         Transactions
       </a>
@@ -37,57 +37,75 @@
     
     <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
       <div>
-        <h1 class="text-xl font-bold text-gray-900">Hardware Management</h1>
-        <p class="text-xs text-gray-500 mt-1">Manage and monitor all physical vending machines.</p>
+        <h1 class="text-xl font-bold text-gray-900">Transaction Ledger</h1>
+        <p class="text-xs text-gray-500 mt-1">Real-time record of all system payments and dispensations.</p>
       </div>
     </header>
 
     <div class="px-8 pb-8">
       <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-lg font-bold text-gray-900">Machine Directory</h2>
+          <h2 class="text-lg font-bold text-gray-900">Recent Activity</h2>
+          <button class="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Export CSV
+          </button>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="text-xs font-semibold text-gray-500 border-b border-gray-100 bg-gray-50/50">
-                <th class="py-4 px-4 rounded-tl-lg">Machine UUID</th>
+                <th class="py-4 px-4 rounded-tl-lg">Date & Time</th>
+                <th class="py-4 px-4">Transaction ID</th>
                 <th class="py-4 px-4">Location</th>
-                <th class="py-4 px-4 text-center">Total Slots</th>
-                <th class="py-4 px-4">Last Heartbeat</th>
+                <th class="py-4 px-4">Product</th>
+                <th class="py-4 px-4">Amount</th>
                 <th class="py-4 px-4">Status</th>
                 <th class="py-4 px-4 text-right rounded-tr-lg">Action</th>
               </tr>
             </thead>
             <tbody class="text-sm">
-              <% @machines.each do |machine| %>
+              <% @transactions.each do |tx| %>
                 <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                  <td class="py-4 px-4 font-mono text-xs text-gray-500"><%= machine.uuid %></td>
-                  <td class="py-4 px-4 font-medium text-gray-900"><%= machine.location_name %></td>
-                  <td class="py-4 px-4 text-center text-gray-500"><%= machine.slots.size %></td>
-                  <td class="py-4 px-4 text-gray-500">
-                    <%= machine.last_heartbeat_at.present? ? time_ago_in_words(machine.last_heartbeat_at) + ' ago' : 'Never' %>
+                  <td class="py-4 px-4 text-gray-500 whitespace-nowrap">
+                    <%= tx.created_at.strftime("%d %b %Y, %H:%M") %>
+                  </td>
+                  <td class="py-4 px-4 font-mono text-xs text-gray-500">
+                    <%= tx.uuid.split('-').first %>
+                  </td>
+                  <td class="py-4 px-4 text-gray-900">
+                    <%= tx.machine.location_name %>
+                  </td>
+                  <td class="py-4 px-4 font-medium text-gray-900">
+                    <%= tx.slot.product.name rescue 'Unknown Product' %>
+                  </td>
+                  <td class="py-4 px-4 font-mono text-gray-700">
+                    Rp <%= number_with_delimiter(tx.amount.to_i, delimiter: '.') %>
                   </td>
                   <td class="py-4 px-4">
-                    <% if machine.status == 'active' %>
+                    <% if tx.settled? %>
                       <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-50 text-green-600">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Settled
+                      </span>
+                    <% elsif tx.pending? %>
+                      <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-orange-50 text-orange-600">
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span> Pending
                       </span>
                     <% else %>
-                      <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> <%= machine.status.capitalize %>
+                      <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-red-50 text-red-600">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Failed
                       </span>
                     <% end %>
                   </td>
                   <td class="py-4 px-4 text-right">
-                    <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                    <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Receipt</button>
                   </td>
                 </tr>
               <% end %>
-              <% if @machines.empty? %>
+              <% if @transactions.empty? %>
                 <tr>
-                  <td colspan="6" class="py-8 text-center text-gray-400 text-sm">No machines deployed yet.</td>
+                  <td colspan="7" class="py-8 text-center text-gray-400 text-sm">No transactions recorded yet.</td>
                 </tr>
               <% end %>
             </tbody>

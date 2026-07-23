@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :machines, only: [ :index ]
   resources :inventories, only: [ :index ]
+  resources :transactions, only: [:index]
 
   namespace :api do
     namespace :v1 do
