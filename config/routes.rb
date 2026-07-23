@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root "dashboards#index"
 
   resources :machines, only: [ :index ]
+  resources :inventories, only: [ :index ]
 
   namespace :api do
     namespace :v1 do
