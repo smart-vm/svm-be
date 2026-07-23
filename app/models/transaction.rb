@@ -2,7 +2,9 @@ class Transaction < ApplicationRecord
   belongs_to :machine
   belongs_to :slot
 
-  validates :status, inclusion: { in: %w[pending paid dispensed failed] }
+  enum :status, { pending: 'pending', settled: 'settled', failed: 'failed' }
+
+  validates :status, inclusion: { in: %w[pending settled failed] }
   validates :uuid, presence: true, uniqueness: true
   
   before_validation :set_defaults, on: :create

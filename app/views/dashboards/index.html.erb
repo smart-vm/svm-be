@@ -1,0 +1,203 @@
+<div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
+  
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-gray-100 flex flex-col hidden md:flex">
+    <!-- Logo Area -->
+    <div class="h-24 flex items-center justify-center flex-col pt-4">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-red-500 mb-2"></div>
+      <span class="text-sm font-bold text-blue-600">Vending Machine Kiosk</span>
+      <span class="text-[10px] text-gray-400">ERP System</span>
+    </div>
+    
+    <!-- Navigation Links -->
+    <nav class="flex-1 px-4 mt-8 space-y-1">
+      <a href="#" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Dashboard
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        Machines
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+        Inventory
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+        Transactions
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col overflow-y-auto">
+    
+    <!-- Top Header -->
+    <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
+      <div>
+        <h1 class="text-xl font-bold text-gray-900">Welcome, Sultan 👋</h1>
+        <p class="text-xs text-gray-500 mt-1">Today is <%= Time.current.strftime("%A, %d %B %Y") %>.</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden">
+             <!-- Placeholder for avatar -->
+             <img src="https://ui-avatars.com/api/?name=Sultan+Alta&background=EBF4FF&color=1E3A8A" alt="Profile">
+          </div>
+          <div class="hidden md:block">
+            <p class="text-sm font-semibold text-gray-700">Sultan Alta</p>
+            <p class="text-[10px] text-gray-400">Software Engineer</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="px-8 pb-8">
+      
+      <!-- 4-Column Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        
+        <!-- Total Machines -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-3xl font-bold text-gray-900"><%= @total_machines %></h3>
+            <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </div>
+          </div>
+          <p class="text-sm font-medium text-gray-500 mb-2">Total Machines</p>
+          <p class="text-xs text-green-500 flex items-center gap-1 font-medium">
+            ↑ 1 new this month
+          </p>
+        </div>
+
+        <!-- Slot Sold -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-3xl font-bold text-gray-900"><%= @items_sold_today %></h3>
+            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
+          </div>
+          <p class="text-sm font-medium text-gray-500 mb-2">Items Sold Today</p>
+          <p class="text-xs text-green-500 flex items-center gap-1 font-medium">
+            ↑ Fast moving inventory
+          </p>
+        </div>
+
+        <!-- Revenue -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-2xl font-bold text-gray-900 truncate">Rp <%= (@today_revenue.to_f / 1000).round %>k</h3>
+            <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+          </div>
+          <p class="text-sm font-medium text-gray-500 mb-2">Today's Revenue</p>
+          <p class="text-xs text-green-500 flex items-center gap-1 font-medium">
+            ↑ 2% more than yesterday
+          </p>
+        </div>
+
+        <!-- Alerts -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-3xl font-bold text-gray-900"><%= @low_stock_count %></h3>
+            <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+          </div>
+          <p class="text-sm font-medium text-gray-500 mb-2">Low Stock Alerts</p>
+          <p class="text-xs <%= @low_stock_count > 0 ? 'text-red-500' : 'text-gray-400' %> flex items-center gap-1 font-medium">
+            <%= @low_stock_count > 0 ? 'Action required soon' : 'All stocks optimal' %>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Tables Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Recent Transactions -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <h2 class="text-lg font-bold text-gray-900 mb-4">Recent Transactions</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="text-xs font-semibold text-gray-500 border-b border-gray-100">
+                  <th class="pb-3 w-12">S/N</th>
+                  <th class="pb-3">Product</th>
+                  <th class="pb-3">Amount</th>
+                  <th class="pb-3 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <% @recent_transactions.each_with_index do |tx, index| %>
+                  <tr class="border-b border-gray-50 last:border-0 relative">
+                    <td class="py-4 text-gray-500 font-medium">0<%= index + 1 %></td>
+                    <td class="py-4 text-gray-900 font-medium"><%= tx.slot.product.name rescue 'Unknown' %></td>
+                    <td class="py-4 text-gray-500">Rp <%= tx.amount.to_i %></td>
+                    <td class="py-4 text-right">
+                      <% if tx.settled? %>
+                        <span class="text-green-500 font-medium">Settled</span>
+                      <% else %>
+                        <span class="text-orange-400 font-medium capitalize"><%= tx.status %></span>
+                      <% end %>
+                      <!-- UI decoration line -->
+                      <div class="absolute right-[-24px] top-4 h-6 w-1 rounded-l <%= tx.settled? ? 'bg-green-500' : 'bg-orange-400' %>"></div>
+                    </td>
+                  </tr>
+                <% end %>
+                <% if @recent_transactions.empty? %>
+                  <tr><td colspan="4" class="py-4 text-center text-gray-400 text-xs">No transactions yet.</td></tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Machine Status List -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <h2 class="text-lg font-bold text-gray-900 mb-4">Machine List</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="text-xs font-semibold text-gray-500 border-b border-gray-100">
+                  <th class="pb-3 w-12">S/N</th>
+                  <th class="pb-3">Location</th>
+                  <th class="pb-3">ID</th>
+                  <th class="pb-3 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <% @machines_list.each_with_index do |machine, index| %>
+                  <tr class="border-b border-gray-50 last:border-0 relative">
+                    <td class="py-4 text-gray-500 font-medium">0<%= index + 1 %></td>
+                    <td class="py-4 text-gray-900 font-medium"><%= machine.location_name %></td>
+                    <td class="py-4 text-gray-500 font-mono text-xs"><%= machine.uuid.split('-').first %></td>
+                    <td class="py-4 text-right">
+                      <% if machine.status == 'active' %>
+                        <span class="text-blue-500 font-medium">Active</span>
+                      <% else %>
+                        <span class="text-gray-400 font-medium capitalize"><%= machine.status %></span>
+                      <% end %>
+                      <!-- UI decoration line -->
+                      <div class="absolute right-[-24px] top-4 h-6 w-1 rounded-l <%= machine.status == 'active' ? 'bg-blue-500' : 'bg-gray-400' %>"></div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>

@@ -23,7 +23,9 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-[#09090b] text-gray-100 font-sans antialiased selection:bg-white selection:text-black">
+    <main class="min-h-screen">
+      <%= yield %>
+    </main>
   </body>
 </html>
