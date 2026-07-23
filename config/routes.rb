@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "dashboards/index", to: "dashboards#index", as: :dashboards_index
   root "dashboards#index"
 
   namespace :api do
