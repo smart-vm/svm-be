@@ -44,9 +44,12 @@
 
     <div class="px-8 pb-8">
       <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-lg font-bold text-gray-900">Machine Directory</h2>
-        </div>
+       <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg font-bold text-gray-900">Machine Directory</h2>
+        <a href="<%= new_machine_path %>" data-turbo="false" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          + Add Machine
+        </a>
+      </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
@@ -80,9 +83,9 @@
                       </span>
                     <% end %>
                   </td>
-                  <td class="py-4 px-4 text-right">
-                    <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
-                  </td>
+                 <td class="py-4 px-4 text-right">
+                  <a href="<%= edit_machine_path(machine) %>" data-turbo="false" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</a>
+                </td>
                 </tr>
               <% end %>
               <% if @machines.empty? %>
