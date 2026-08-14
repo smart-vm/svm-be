@@ -38,6 +38,6 @@ class InventoriesController < ApplicationController
 
   def product_params
     # Match the exact columns in your products table
-    params.require(:product).permit(:name, :description, :price, :image_url)
+    params.require(:product).permit(:name, :description, :price, :image)
   end
 end
