@@ -66,3 +66,5 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.6"
+
+gem "aws-sdk-s3", "~> 1.229"
