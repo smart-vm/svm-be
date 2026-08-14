@@ -87,9 +87,10 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: svm_be_production
-    username: svm_be
+    database: vending_erp_production
+    username: vending_erp
     password: <%= ENV["SVM_BE_DATABASE_PASSWORD"] %>
+    host: localhost
   cache:
     <<: *primary_production
     database: svm_be_production_cache
