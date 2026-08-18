@@ -68,3 +68,5 @@ end
 gem "tailwindcss-rails", "~> 4.6"
 
 gem "aws-sdk-s3", "~> 1.229"
+
+gem "devise", "~> 5.0"
