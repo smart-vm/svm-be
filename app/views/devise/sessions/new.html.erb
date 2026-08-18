@@ -14,7 +14,7 @@
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-white py-8 px-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sm:rounded-2xl sm:px-10 border border-gray-100">
       
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6", data: { turbo: false } }) do |f| %>
         
         <% if flash[:alert] %>
           <div class="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium border border-red-100">
@@ -25,14 +25,14 @@
         <div>
           <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
           <div class="mt-1">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none block w-full px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors [&:-webkit-autofill]:bg-white [&:-webkit-autofill]:shadow-[inset_0_0_0px_1000px_#ffffff] [&:-webkit-autofill]:-webkit-text-fill-color-gray-900" %>
           </div>
         </div>
 
         <div>
           <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
           <div class="mt-1">
-            <%= f.password_field :password, autocomplete: "current-password", class: "appearance-none block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors" %>
+            <%= f.password_field :password, autocomplete: "current-password", class: "appearance-none block w-full px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors [&:-webkit-autofill]:bg-white [&:-webkit-autofill]:shadow-[inset_0_0_0px_1000px_#ffffff] [&:-webkit-autofill]:-webkit-text-fill-color-gray-900" %>
           </div>
         </div>
 

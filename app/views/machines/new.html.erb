@@ -1,82 +1,64 @@
-<div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
-  
-  <!-- Sidebar -->
-  <aside class="w-64 bg-white border-r border-gray-100 flex flex-col hidden md:flex">
-    <div class="h-24 flex items-center justify-center flex-col pt-4">
-      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-red-500 mb-2"></div>
-      <span class="text-sm font-bold text-blue-600">Vending Machine Kiosk</span>
-      <span class="text-[10px] text-gray-400">ERP System</span>
-    </div>
+<%= turbo_frame_tag "modal" do %>
+  <!-- Overlay Latar Belakang Gelap -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm p-4 transition-all"
+       data-controller="modal" 
+       data-action="click->modal#closeBackground keyup@window->modal#closeOnEsc">
     
-    <nav class="flex-1 px-4 mt-8 space-y-1">
-      <a href="<%= root_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-        Dashboard
-      </a>
+    <!-- Kotak Modal Utama -->
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
       
-      <!-- Machines is ACTIVE -->
-      <a href="<%= machines_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-        Machines
-      </a>
-      
-      <a href="<%= inventories_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-        Inventory
-      </a>
-
-      <a href="<%= transactions_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-        Transactions
-      </a>
-    </nav>
-  </aside>
-
-  <!-- Main Content Area -->
-  <main class="flex-1 flex flex-col overflow-y-auto">
-    <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
-      <div>
-        <div class="flex items-center gap-2 text-sm text-gray-500 mb-1">
-          <a href="<%= machines_path %>" data-turbo="false" class="hover:text-blue-600 transition-colors">Machines</a>
-          <span>/</span>
-          <span class="text-gray-900 font-medium">Add New</span>
+      <!-- Header Modal -->
+      <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm border border-blue-200">
+            <!-- Ikon Server/Mesin -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900">Add New Machine</h3>
+            <p class="text-xs text-gray-500">Register a new physical hardware node.</p>
+          </div>
         </div>
-        <h1 class="text-xl font-bold text-gray-900">Deploy New Machine</h1>
-      </div>
-    </header>
-
-    <div class="px-8 pb-8 max-w-3xl">
-      <div class="bg-white rounded-2xl p-8 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
         
-        <%= form_with(model: @machine, class: "space-y-6") do |f| %>
-          <% if @machine.errors.any? %>
-            <div class="bg-red-50 text-red-600 p-4 rounded-lg text-sm mb-6">
-              <ul class="list-disc pl-5">
-                <% @machine.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-
-          <div>
-            <%= f.label :location_name, "Location Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
-            <%= f.text_field :location_name, placeholder: "e.g., Astha District 8 - Lobby", class: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-sm" %>
-            <p class="text-xs text-gray-400 mt-2">The physical location where this machine is deployed.</p>
-          </div>
-
-          <div>
-            <%= f.label :status, "Operational Status", class: "block text-sm font-medium text-gray-700 mb-2" %>
-            <%= f.select :status, [['Active', 'active'], ['Maintenance', 'maintenance'], ['Inactive', 'inactive']], {}, class: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-sm bg-white" %>
-          </div>
-
-          <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-100">
-            <a href="<%= machines_path %>" data-turbo="false" class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">Cancel</a>
-            <%= f.submit "Deploy Machine", class: "px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer transition-colors shadow-sm" %>
-          </div>
-        <% end %>
-
+        <!-- Tombol X untuk menutup -->
+        <button type="button" data-action="modal#close" class="text-gray-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
       </div>
+
+      <!-- Body / Form -->
+      <div class="p-6">
+        <!-- PENTING: data-turbo-frame="_top" membuat rails mereload halaman setelah sukses save -->
+        <%= form_with(model: @machine, class: "space-y-5", data: { turbo_frame: "_top" }) do |f| %>
+          
+          <div>
+            <%= f.label :location_name, "Machine Location / Label", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </div>
+              <%= f.text_field :location_name, required: true, placeholder: "e.g., Jakarta Public Area - Unit 02", class: "pl-10 appearance-none block w-full px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors [&:-webkit-autofill]:bg-white [&:-webkit-autofill]:shadow-[inset_0_0_0px_1000px_#ffffff]" %>
+            </div>
+          </div>
+
+          <div>
+            <%= f.label :status, "Initial Status", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.select :status, [['Active / Online', 'active'], ['Maintenance', 'maintenance'], ['Inactive', 'inactive']], {}, class: "block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors bg-white" %>
+          </div>
+
+          <!-- Footer Action Buttons -->
+          <div class="pt-4 flex justify-end gap-3 border-t border-gray-100 mt-8">
+            <button type="button" data-action="modal#close" class="px-5 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+              Cancel
+            </button>
+            <%= f.submit "Deploy Machine", class: "px-5 py-2.5 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 cursor-pointer shadow-sm transition-colors" %>
+          </div>
+          
+        <% end %>
+      </div>
+
     </div>
-  </main>
-</div>
+  </div>
+<% end %>

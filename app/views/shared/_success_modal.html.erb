@@ -1,0 +1,23 @@
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+     data-controller="modal"> <!-- Menggunakan modal_controller.js yang sudah kita buat sebelumnya -->
+  
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-8 text-center transform animate-in zoom-in-95 duration-300">
+    <!-- Icon Success -->
+    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+      <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+    
+    <h3 class="text-xl font-bold text-gray-900 mb-2"><%= title %></h3>
+    
+    <!-- Teks pesan sukses diambil dari Flash Notice -->
+    <p class="text-sm text-gray-500 mb-8"><%= message %></p>
+    
+    <!-- Tombol ini sekarang hanya bertugas memicu fungsi close() di Stimulus -->
+    <button type="button" data-action="click->modal#close" 
+       class="block w-full py-3 bg-gray-900 hover:bg-black text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl cursor-pointer">
+      Continue
+    </button>
+  </div>
+</div>

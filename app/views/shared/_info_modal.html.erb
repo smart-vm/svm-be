@@ -1,0 +1,20 @@
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+     data-controller="modal"> 
+  
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-8 text-center transform animate-in zoom-in-95 duration-300">
+    <!-- Icon Info (Blue) -->
+    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-6 border-4 border-blue-50">
+      <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+    </div>
+    
+    <h3 class="text-xl font-bold text-gray-900 mb-2"><%= title %></h3>
+    <p class="text-sm text-gray-500 mb-8"><%= message %></p>
+    
+    <button type="button" data-action="click->modal#close" 
+       class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg cursor-pointer">
+      Understood
+    </button>
+  </div>
+</div>
