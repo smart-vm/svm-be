@@ -1,0 +1,179 @@
+<div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
+  
+  <aside class="w-64 bg-white border-r border-gray-100 flex flex-col hidden md:flex">
+    <div class="h-24 flex items-center justify-center flex-col pt-4">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-red-500 mb-2"></div>
+      <span class="text-sm font-bold text-blue-600">Traveloka Kiosk</span>
+      <span class="text-[10px] text-gray-400">ERP System</span>
+    </div>
+    
+    <nav class="flex-1 px-4 mt-8 space-y-1">
+      <a href="<%= root_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Dashboard
+      </a>
+      
+      <a href="<%= machines_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        Machines
+      </a>
+      
+      <a href="<%= inventories_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+        Inventory
+      </a>
+
+      <a href="<%= transactions_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+        Transactions
+      </a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 flex flex-col overflow-y-auto">
+    <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
+      <div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-1">
+          <a href="<%= machines_path %>" data-turbo="false" class="hover:text-blue-600 transition-colors">Machines</a>
+          <span>/</span>
+          <span class="text-gray-900 font-medium">Node Details</span>
+        </div>
+        <h1 class="text-xl font-bold text-gray-900"><%= @machine.location_name %></h1>
+      </div>
+      <div>
+        <span class="text-[11px] text-gray-400 font-mono block text-right">NODE ID</span>
+        <span class="text-sm font-mono text-gray-600 bg-gray-100 px-3 py-1.5 rounded-md"><%= @machine.uuid %></span>
+      </div>
+    </header>
+
+    <div class="px-8 pb-8 space-y-6">
+      
+      <div class="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] grid grid-cols-1 md:grid-cols-4 gap-6 border border-gray-100">
+        <div>
+          <span class="text-xs text-gray-400 font-medium block mb-1">Status Operational</span>
+          <% if @machine.status == 'active' %>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-600 border border-green-100">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Active / Online
+            </span>
+          <% elsif @machine.status == 'maintenance' %>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-600 border border-amber-100">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Maintenance
+            </span>
+          <% else %>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-600 border border-gray-100">
+              <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Inactive
+            </span>
+          <% end %>
+        </div>
+        
+        <div>
+          <span class="text-xs text-gray-400 font-medium block mb-1">Total Active Slots</span>
+          <span class="text-lg font-bold text-gray-800"><%= @slots.count %> Rows Connected</span>
+        </div>
+
+        <div>
+          <span class="text-xs text-gray-400 font-medium block mb-1">Hardware Core Connected</span>
+          <span class="text-sm font-medium text-gray-800 flex items-center gap-1.5 mt-0.5">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+            UART RS232 Sniffing Mode
+          </span>
+        </div>
+
+        <div>
+          <span class="text-xs text-gray-400 font-medium block mb-1">Last Node Sync Ping</span>
+          <span class="text-sm font-mono text-gray-600 mt-1 block">
+            <%= @machine.last_heartbeat_at ? @machine.last_heartbeat_at.strftime("%Y-%m-%d %H:%M:%S") : "Never" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <div>
+          <h2 class="text-lg font-bold text-gray-900">Planogram Layout Configuration</h2>
+          <p class="text-xs text-gray-500">Manage physical rows, load items into slots, and adjust stock tracking thresholds.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @slots.each do |slot| %>
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col justify-between hover:border-blue-200 transition-all">
+            
+            <div class="p-5 border-b border-gray-50 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-gray-900 text-white flex items-center justify-center font-mono font-bold text-sm shadow-sm">
+                  #<%= slot.slot_number %>
+                </span>
+                <span class="text-[11px] font-semibold tracking-wider text-gray-400 uppercase font-mono">Physical Row</span>
+              </div>
+              
+              <a href="<%= edit_slot_path(slot) %>" data-turbo="false" class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v13a2 2 0 002 2h10a2 2 0 002-2v-5M18.364 2.25a3.333 3.333 0 014.714 4.714L12 17.5l-4 1 1-4 11.364-11.364z"></path></svg>
+                Refill Slot
+              </a>
+            </div>
+
+            <div class="p-5 flex-1 flex gap-4 items-start">
+              <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                <% if slot.product&.image_url.to_s.include?('example.com') || slot.product&.image_url.blank? %>
+                  <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                <% else %>
+                  <img src="<%= slot.product.image_url %>" alt="<%= slot.product.name %>" class="w-full h-full object-cover">
+                <% end %>
+              </div>
+              
+              <div class="flex-1 min-w-0">
+                <% if slot.product %>
+                  <h3 class="text-sm font-bold text-gray-900 truncate mb-0.5"><%= slot.product.name %></h3>
+                  <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Rp <%= number_with_delimiter(slot.product.price.to_i, delimiter: ".") %></span>
+                <% else %>
+                  <h3 class="text-sm font-medium text-gray-400 italic">Empty Spiral Node</h3>
+                  <span class="text-[11px] text-gray-400 block mt-1">No product catalog mapped to this track yet.</span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="p-5 bg-gray-50/50 border-t border-gray-50">
+              <div class="flex items-center justify-between text-xs font-medium text-gray-500 mb-2">
+                <span>Stock Integrity</span>
+                <span class="font-bold text-gray-800 font-mono"><%= slot.current_stock %> / <%= slot.max_capacity %> pcs</span>
+              </div>
+              
+              <% percentage = slot.max_capacity.to_i > 0 ? (slot.current_stock.to_f / slot.max_capacity.to_f * 100).round : 0 %>
+              <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden mb-2">
+                <% if percentage <= 20 %>
+                  <div class="bg-red-500 h-2 rounded-full transition-all" style="width: <%= percentage %>%"></div>
+                <% elsif percentage <= 50 %>
+                  <div class="bg-amber-500 h-2 rounded-full transition-all" style="width: <%= percentage %>%"></div>
+                <% else %>
+                  <div class="bg-green-500 h-2 rounded-full transition-all" style="width: <%= percentage %>%"></div>
+                <% end %>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-gray-400">Track Status:</span>
+                <% if slot.status == "operational" %>
+                  <span class="text-green-600 font-semibold bg-green-50 px-1.5 py-0.5 rounded">Operational</span>
+                <% else %>
+                  <span class="text-red-600 font-semibold bg-red-50 px-1.5 py-0.5 rounded">Jammed / Error</span>
+                <% end %>
+              </div>
+            </div>
+
+          </div>
+        <% end %>
+        <a href="<%= new_slot_path(machine_id: @machine.id) %>" data-turbo="false" class="group bg-gray-50 border-2 border-dashed border-gray-200 hover:border-blue-400 hover:bg-blue-50/30 rounded-2xl p-8 min-h-[220px] flex flex-col items-center justify-center gap-3 transition-all text-center cursor-pointer shadow-[0_4px_20px_-4px_rgba(0,0,0,0.01)]">
+          <div class="w-12 h-12 rounded-full bg-white group-hover:bg-blue-100 flex items-center justify-center text-gray-400 group-hover:text-blue-600 shadow-sm transition-colors border border-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-gray-700 group-hover:text-blue-700 transition-colors">Connect Another Slot</h3>
+            <p class="text-xs text-gray-400 max-w-[200px] mt-1">Provision a new physical spiral row track to this machine container.</p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </main>
+</div>

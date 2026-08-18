@@ -1,0 +1,101 @@
+<div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
+  
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-gray-100 flex flex-col hidden md:flex">
+    <div class="h-24 flex items-center justify-center flex-col pt-4">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-red-500 mb-2"></div>
+      <span class="text-sm font-bold text-blue-600">Traveloka Kiosk</span>
+      <span class="text-[10px] text-gray-400">ERP System</span>
+    </div>
+    
+    <nav class="flex-1 px-4 mt-8 space-y-1">
+      <a href="<%= root_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Dashboard
+      </a>
+      
+      <!-- Machines is ACTIVE -->
+      <a href="<%= machines_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        Machines
+      </a>
+      
+      <a href="<%= inventories_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+        Inventory
+      </a>
+
+      <a href="<%= transactions_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+        Transactions
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col overflow-y-auto">
+    <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
+      <div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-1">
+          <a href="<%= machines_path %>" data-turbo="false" class="hover:text-blue-600 transition-colors">Machines</a>
+          <span>/</span>
+          <a href="<%= machine_path(@slot.machine) %>" data-turbo="false" class="hover:text-blue-600 transition-colors"><%= @slot.machine.location_name %></a>
+          <span>/</span>
+          <span class="text-gray-900 font-medium">Slot #<%= @slot.slot_number %></span>
+        </div>
+        <h1 class="text-xl font-bold text-gray-900">Manage Slot #<%= @slot.slot_number %></h1>
+      </div>
+    </header>
+
+    <div class="px-8 pb-8 max-w-3xl">
+      <div class="bg-white rounded-2xl p-8 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+        
+        <%= form_with(model: @slot, class: "space-y-6") do |f| %>
+          <% if @slot.errors.any? %>
+            <div class="bg-red-50 text-red-600 p-4 rounded-lg text-sm mb-6">
+              <ul class="list-disc pl-5">
+                <% @slot.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- Assign Product from Master Catalog -->
+          <div class="p-5 bg-gray-50 rounded-xl border border-gray-100 mb-6">
+            <h3 class="text-sm font-bold text-gray-900 mb-4">Product Assignment</h3>
+            <%= f.label :product_id, "Mapped Product", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.collection_select :product_id, Product.all, :id, :name, { include_blank: "Empty Slot (No Product)" }, class: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-sm bg-white" %>
+            <p class="text-xs text-gray-400 mt-2">Select the product that is physically loaded into this spiral.</p>
+          </div>
+
+          <!-- Stock Configuration -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <%= f.label :current_stock, "Current Stock (pcs)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= f.number_field :current_stock, min: 0, class: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-sm" %>
+            </div>
+            
+            <div>
+              <%= f.label :max_capacity, "Max Capacity (pcs)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= f.number_field :max_capacity, min: 1, class: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-sm" %>
+            </div>
+          </div>
+
+          <!-- Hardware Status -->
+          <div class="pt-2">
+            <%= f.label :status, "Hardware Status", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.select :status, [['Operational', 'operational'], ['Jammed / Error', 'error'], ['Disabled', 'disabled']], {}, class: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-sm bg-white" %>
+          </div>
+
+          <!-- Actions -->
+          <div class="pt-6 flex items-center justify-end gap-3 border-t border-gray-100">
+            <a href="<%= machine_path(@slot.machine) %>" data-turbo="false" class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">Cancel</a>
+            <%= f.submit "Update Slot Configuration", class: "px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer transition-colors shadow-sm" %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </main>
+</div>

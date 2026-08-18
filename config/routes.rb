@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   root "dashboards#index"
 
-  resources :machines, only: [ :index, :new, :create, :edit, :update ]
+  resources :machines, only: [ :index, :new, :create, :edit, :update, :show]
   resources :inventories, only: [ :index, :new, :create, :edit, :update ]
   resources :transactions, only: [ :index ]
+  resources :slots, only: [:new, :create, :edit, :update]
 
   namespace :api do
     namespace :v1 do

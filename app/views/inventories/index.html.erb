@@ -1,10 +1,9 @@
 <div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
   
-  <!-- Sidebar -->
   <aside class="w-64 bg-white border-r border-gray-100 flex flex-col hidden md:flex">
     <div class="h-24 flex items-center justify-center flex-col pt-4">
       <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-red-500 mb-2"></div>
-      <span class="text-sm font-bold text-blue-600">Vending Machine Kiosk</span>
+      <span class="text-sm font-bold text-blue-600">Traveloka Kiosk</span>
       <span class="text-[10px] text-gray-400">ERP System</span>
     </div>
     
@@ -19,7 +18,6 @@
         Machines
       </a>
       
-      <!-- Inventory is now ACTIVE -->
       <a href="<%= inventories_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
         Inventory
@@ -32,7 +30,6 @@
     </nav>
   </aside>
 
-  <!-- Main Content Area -->
   <main class="flex-1 flex flex-col overflow-y-auto">
     
     <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
@@ -89,7 +86,29 @@
                   </td>
                   
                   <td class="py-4 px-4 text-gray-500 text-xs">
-                    In <%= active_machines %> <%= 'machine'.pluralize(active_machines) %>
+                    <div class="relative inline-flex items-center gap-1.5 group cursor-help">
+                      <span>In <%= active_machines %> <%= 'machine'.pluralize(active_machines) %></span>
+                      
+                      <% if active_machines > 0 %>
+                        <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        
+                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 transform scale-95 group-hover:scale-100">
+                          <div class="font-bold text-gray-100 mb-2 border-b border-gray-700 pb-2">Stock per Location</div>
+                          <ul class="space-y-1.5">
+                            <% product.slots.includes(:machine).group_by(&:machine).each do |machine, slots| %>
+                              <% machine_stock = slots.sum(&:current_stock).to_i %>
+                              <li class="flex justify-between items-center">
+                                <span class="truncate max-w-[160px] font-medium text-gray-300"><%= machine.location_name %></span>
+                                <span class="text-blue-400 font-bold font-mono"><%= machine_stock %> pcs</span>
+                              </li>
+                            <% end %>
+                          </ul>
+                          <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                        </div>
+                      <% end %>
+                    </div>
                   </td>
                   
                   <td class="py-4 px-4">
@@ -109,8 +128,15 @@
                   </td>
                   
                   <td class="py-4 px-4 text-right">
-                  <a href="<%= edit_inventory_path(product) %>" data-turbo="false" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</a>
-                </td>
+                    <div class="flex items-center justify-end">
+                      <a href="<%= edit_inventory_path(product) %>" data-turbo="false" title="Edit Product Catalog" class="text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors flex items-center justify-center">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                      </a>
+                    </div>
+                  </td>
+                  
                 </tr>
               <% end %>
               <% if @products.empty? %>

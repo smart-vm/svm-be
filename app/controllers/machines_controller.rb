@@ -30,6 +30,11 @@ class MachinesController < ApplicationController
     end
   end
 
+  def show
+    @machine = Machine.find(params[:id])
+    @slots = @machine.slots.includes(:product).order(:slot_number)
+  end
+
   private
 
   def set_machine
