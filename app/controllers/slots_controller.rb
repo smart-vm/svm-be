@@ -1,5 +1,5 @@
 class SlotsController < ApplicationController
-  before_action :set_slot, only: [:edit, :update]
+  before_action :set_slot, only: [ :edit, :update ]
 
   def new
     @machine = Machine.find(params[:machine_id])
