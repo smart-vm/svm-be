@@ -5,7 +5,7 @@ one:
   machine: one
   slot: one
   amount: 9.99
-  status: MyString
+  status: pending
   external_reference: MyString
 
 two:
@@ -13,5 +13,5 @@ two:
   machine: two
   slot: two
   amount: 9.99
-  status: MyString
+  status: pending
   external_reference: MyString
