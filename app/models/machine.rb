@@ -1,6 +1,7 @@
 class Machine < ApplicationRecord
   has_many :slots, dependent: :destroy
   has_many :transactions
+  has_many :advertisement_machines, dependent: :destroy
 
   has_secure_token :api_token, length: 32
 

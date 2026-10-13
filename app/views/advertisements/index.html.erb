@@ -1,0 +1,72 @@
+<div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
+  <%= render "sidebar" %>
+
+  <main class="flex-1 flex flex-col overflow-y-auto">
+    <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
+      <div>
+        <h1 class="text-xl font-bold text-gray-900">Advertisements</h1>
+        <p class="text-xs text-gray-500 mt-1">Images and videos that rotate on the kiosk screens. Payment screens never show ads.</p>
+      </div>
+      <a href="<%= new_advertisement_path %>" data-turbo="false" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        New Advertisement
+      </a>
+    </header>
+
+    <div class="px-8 pb-8">
+      <% if @advertisements.empty? %>
+        <div class="bg-white rounded-2xl p-12 text-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <p class="text-gray-900 font-semibold">No advertisements yet</p>
+          <p class="text-sm text-gray-500 mt-1">Until you add one, the kiosks show a SmartVend brand panel in the ad space.</p>
+        </div>
+      <% else %>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <% @advertisements.each do |ad| %>
+            <% status = ad.schedule_status %>
+            <div class="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-gray-100 flex flex-col">
+              <div class="aspect-[4/3] bg-gray-900 relative">
+                <% if ad.media.attached? %>
+                  <% if ad.video? %>
+                    <video src="<%= url_for(ad.media) %>" class="w-full h-full object-contain" muted loop autoplay playsinline></video>
+                  <% else %>
+                    <%= image_tag ad.media, alt: ad.title, class: "w-full h-full object-contain" %>
+                  <% end %>
+                <% end %>
+                <span class="absolute top-3 left-3 text-[11px] font-semibold uppercase px-2 py-1 rounded-md bg-white/90 text-gray-700"><%= ad.media_type %></span>
+                <%
+                  badge = { "live" => "bg-green-500 text-white", "scheduled" => "bg-blue-500 text-white",
+                            "ended" => "bg-gray-500 text-white", "paused" => "bg-amber-500 text-white" }[status]
+                %>
+                <span class="absolute top-3 right-3 text-[11px] font-semibold uppercase px-2 py-1 rounded-md <%= badge %>"><%= status %></span>
+              </div>
+              <div class="p-5 flex-1 flex flex-col gap-2 text-sm">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-bold text-gray-900"><%= ad.title %></h3>
+                  <span class="text-xs text-gray-400 whitespace-nowrap">#<%= ad.position %></span>
+                </div>
+                <p class="text-xs text-gray-500">
+                  <%= ad.video? ? "Plays to the end" : "#{ad.duration_seconds}s on screen" %> ·
+                  <%= ad.starts_at ? l(ad.starts_at, format: :short) : "now" %> → <%= ad.ends_at ? l(ad.ends_at, format: :short) : "no end" %>
+                </p>
+                <div class="flex flex-wrap gap-1.5">
+                  <% ad.placements.each do |placement| %>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-blue-50 text-blue-700"><%= placement %></span>
+                  <% end %>
+                </div>
+                <p class="text-xs text-gray-500">
+                  Machines: <%= ad.machines.any? ? ad.machines.map(&:location_name).join(", ") : "all machines" %>
+                </p>
+                <div class="mt-auto pt-3 flex items-center justify-end gap-2 border-t border-gray-100">
+                  <a href="<%= edit_advertisement_path(ad) %>" data-turbo="false" class="text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">Edit</a>
+                  <%= button_to "Delete", advertisement_path(ad), method: :delete,
+                        form: { data: { turbo_confirm: "Delete \"#{ad.title}\"? Kiosks stop showing it within a few minutes." } },
+                        class: "text-xs font-semibold text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

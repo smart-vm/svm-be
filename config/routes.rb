@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member { patch :resolve }
   end
   resources :slots, only: [ :new, :create, :edit, :update ]
+  resources :advertisements, except: [ :show ]
 
   namespace :api do
     namespace :v1 do
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
 
       namespace :kiosk do
         resource :catalog, only: :show
+        resources :ads, only: :index
         resources :transactions, only: [ :create, :show ], param: :uuid do
           member do
             post :cancel

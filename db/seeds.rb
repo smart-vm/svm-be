@@ -86,3 +86,7 @@ puts "TESTING VARIABLES FOR POSTMAN / RAILS CONSOLE:"
 puts "Machine UUID:     #{machine.uuid}"
 puts "Transaction UUID: #{transaction.uuid}"
 puts "--------------------------------------------------"
+
+puts "📣 Adding sample advertisements..."
+Rails.application.load_tasks unless Rake::Task.task_defined?("svm:sample_ads")
+Rake::Task["svm:sample_ads"].invoke

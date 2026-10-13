@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_13_090100) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -41,6 +41,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_090100) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "advertisement_machines", force: :cascade do |t|
+    t.bigint "advertisement_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "machine_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["advertisement_id", "machine_id"], name: "idx_on_advertisement_id_machine_id_04c37c747d", unique: true
+    t.index ["advertisement_id"], name: "index_advertisement_machines_on_advertisement_id"
+    t.index ["machine_id"], name: "index_advertisement_machines_on_machine_id"
+  end
+
+  create_table "advertisements", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.integer "duration_seconds", default: 8, null: false
+    t.datetime "ends_at"
+    t.string "placements", default: [], null: false, array: true
+    t.integer "position", default: 0, null: false
+    t.datetime "starts_at"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active", "position"], name: "index_advertisements_on_active_and_position"
   end
 
   create_table "machines", force: :cascade do |t|
@@ -123,6 +146,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_090100) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "advertisement_machines", "advertisements"
+  add_foreign_key "advertisement_machines", "machines"
   add_foreign_key "slots", "machines"
   add_foreign_key "slots", "products"
   add_foreign_key "transactions", "machines"
