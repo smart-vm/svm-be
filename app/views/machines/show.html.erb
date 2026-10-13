@@ -43,6 +43,10 @@
       <div>
         <span class="text-[11px] text-gray-400 font-mono block text-right">NODE ID</span>
         <span class="text-sm font-mono text-gray-600 bg-gray-100 px-3 py-1.5 rounded-md"><%= @machine.uuid %></span>
+        <details class="mt-2 text-right">
+          <summary class="text-[11px] text-gray-400 font-mono cursor-pointer select-none">KIOSK API TOKEN</summary>
+          <span class="inline-block mt-1 text-xs font-mono text-gray-600 bg-gray-100 px-3 py-1.5 rounded-md select-all"><%= @machine.api_token %></span>
+        </details>
       </div>
     </header>
 
@@ -114,7 +118,9 @@
 
             <div class="p-5 flex-1 flex gap-4 items-start">
               <div class="w-16 h-16 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-                <% if slot.product&.image_url.to_s.include?('example.com') || slot.product&.image_url.blank? %>
+                <% if slot.product&.image&.attached? %>
+                  <%= image_tag slot.product.image, alt: slot.product.name, class: "w-full h-full object-contain" %>
+                <% elsif slot.product&.image_url.to_s.include?('example.com') || slot.product&.image_url.blank? %>
                   <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                 <% else %>
                   <img src="<%= slot.product.image_url %>" alt="<%= slot.product.name %>" class="w-full h-full object-cover">

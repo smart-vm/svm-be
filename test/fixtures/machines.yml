@@ -2,12 +2,14 @@
 
 one:
   uuid: <%= SecureRandom.uuid %>
+  api_token: machine-one-token-0000000000000000
   location_name: MyString
-  status: MyString
+  status: active
   last_heartbeat_at: 2026-07-15 12:41:40
 
 two:
   uuid: <%= SecureRandom.uuid %>
+  api_token: machine-two-token-0000000000000000
   location_name: MyString
-  status: MyString
+  status: active
   last_heartbeat_at: 2026-07-15 12:41:40

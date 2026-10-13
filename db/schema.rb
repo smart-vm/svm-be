@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_054045) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_090100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -44,12 +44,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_054045) do
   end
 
   create_table "machines", force: :cascade do |t|
+    t.string "api_token", null: false
     t.datetime "created_at", null: false
     t.datetime "last_heartbeat_at"
     t.string "location_name", null: false
     t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["api_token"], name: "index_machines_on_api_token", unique: true
     t.index ["uuid"], name: "index_machines_on_uuid", unique: true
   end
 
@@ -77,15 +79,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_054045) do
 
   create_table "transactions", force: :cascade do |t|
     t.decimal "amount", precision: 12, scale: 2
+    t.jsonb "callback_payload", default: {}, null: false
+    t.text "checkout_url"
     t.datetime "created_at", null: false
+    t.datetime "dispense_started_at"
+    t.datetime "dispensed_at"
+    t.datetime "expires_at"
     t.string "external_reference"
+    t.string "failure_reason"
+    t.decimal "fee", precision: 12, scale: 2
+    t.jsonb "gateway_payload", default: {}, null: false
+    t.string "issuer_name"
     t.bigint "machine_id", null: false
+    t.datetime "paid_at"
+    t.string "payment_channel"
+    t.string "payment_method"
+    t.text "qr_content"
+    t.text "qr_image_url"
+    t.string "rrn"
     t.bigint "slot_id", null: false
     t.string "status"
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.jsonb "vend_result", default: {}, null: false
+    t.index ["machine_id", "status"], name: "index_transactions_on_machine_id_and_status"
     t.index ["machine_id"], name: "index_transactions_on_machine_id"
     t.index ["slot_id"], name: "index_transactions_on_slot_id"
+    t.index ["status", "created_at"], name: "index_transactions_on_status_and_created_at"
     t.index ["uuid"], name: "index_transactions_on_uuid", unique: true
   end
 

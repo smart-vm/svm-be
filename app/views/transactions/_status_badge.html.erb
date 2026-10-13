@@ -1,0 +1,15 @@
+<%
+  styles = {
+    "settled"         => [ "bg-green-50 text-green-600", "bg-green-500" ],
+    "refunded"        => [ "bg-gray-100 text-gray-600", "bg-gray-400" ],
+    "pending"         => [ "bg-orange-50 text-orange-600", "bg-orange-400" ],
+    "paid"            => [ "bg-blue-50 text-blue-600", "bg-blue-500" ],
+    "dispensing"      => [ "bg-blue-50 text-blue-600", "bg-blue-500" ],
+    "refund_required" => [ "bg-red-50 text-red-600", "bg-red-500" ],
+    "needs_review"    => [ "bg-amber-50 text-amber-700", "bg-amber-500" ]
+  }
+  badge, dot = styles.fetch(tx.status, [ "bg-gray-50 text-gray-500", "bg-gray-300" ])
+%>
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium <%= badge %>">
+  <span class="w-1.5 h-1.5 rounded-full <%= dot %>"></span> <%= tx.status.humanize %>
+</span>

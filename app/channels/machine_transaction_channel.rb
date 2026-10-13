@@ -1,10 +1,9 @@
+# Pushes `transaction_updated` events to the kiosk that owns the transaction.
 class MachineTransactionChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
-    stream_from "machine_transaction_channel_#{params[:machine_uuid]}"
-  end
+    return reject unless current_machine
 
-  def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    current_machine.touch_heartbeat!
+    stream_from current_machine.transaction_stream
   end
 end

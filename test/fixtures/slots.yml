@@ -4,14 +4,14 @@ one:
   machine: one
   slot_number: 1
   product: one
-  current_stock: 1
-  max_capacity: 1
+  current_stock: 5
+  max_capacity: 10
   status: MyString
 
 two:
   machine: two
   slot_number: 1
   product: two
-  current_stock: 1
-  max_capacity: 1
+  current_stock: 5
+  max_capacity: 10
   status: MyString

@@ -25,4 +25,26 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     body = response.body
     assert body.index(newer.uuid.split("-").first) < body.index(older.uuid.split("-").first)
   end
+
+  test "resolve marks a refund as done and shows the action only when needed" do
+    sign_in users(:one)
+    transaction = transactions(:one)
+    transaction.update!(status: "refund_required", failure_reason: "vend_failed")
+
+    get transactions_url
+    assert_match "Mark refunded", response.body
+
+    patch resolve_transaction_url(transaction, outcome: "refunded")
+
+    assert_redirected_to transactions_path
+    assert transaction.reload.refunded?
+  end
+
+  test "resolve refuses a transaction that is not waiting on the back office" do
+    sign_in users(:one)
+
+    patch resolve_transaction_url(transactions(:one), outcome: "refunded")
+
+    assert transactions(:one).reload.pending?
+  end
 end

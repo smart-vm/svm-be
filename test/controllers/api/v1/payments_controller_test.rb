@@ -1,33 +1,53 @@
 require "test_helper"
 
 class Api::V1::PaymentsControllerTest < ActionDispatch::IntegrationTest
-  test "should process successful payment webhook via POST" do
-    # 1. Grab a transaction from your updated transactions.yml fixture
-    transaction = transactions(:one)
-
-    # 2. Simulate the payment gateway sending a POST request with JSON
-    post api_v1_payments_webhook_url, params: {
-      event: "payment.succeeded",
-      external_reference: "TEST-WEBHOOK-999",
-      transaction_uuid: transaction.uuid
-    }, as: :json
-
-    # 3. Assert that the server responds with a 200 OK (success)
-    assert_response :success
-
-    # 4. (Bonus) Verify the database actually updated the status
-    transaction.reload
-    assert_equal "paid", transaction.status
+  setup do
+    @transaction = transactions(:one)
+    @gateway = Payments::MockGateway.new
   end
 
-  test "should reject invalid webhook data" do
-    # Simulate a POST request with a fake UUID
-    post api_v1_payments_webhook_url, params: {
-      event: "payment.succeeded",
-      transaction_uuid: "fake-uuid-that-does-not-exist"
-    }, as: :json
+  def post_callback(raw, signature)
+    post api_v1_payments_webhook_url, params: raw,
+         headers: { "Content-Type" => "application/json; charset=utf-8", "X-Signature" => signature }
+  end
 
-    # Assert that the server catches it and returns a 400 Bad Request
-    assert_response :bad_request
+  test "a signed success callback marks the transaction paid" do
+    raw, signature = @gateway.build_callback(@transaction, status: "success")
+
+    post_callback(raw, signature)
+
+    assert_response :success
+    assert @transaction.reload.paid?
+    assert_equal "MOCK BANK", @transaction.issuer_name
+    assert_equal @transaction.uuid, @transaction.callback_payload["external_id"]
+  end
+
+  test "duplicate deliveries are acknowledged and change nothing" do
+    raw, signature = @gateway.build_callback(@transaction, status: "success")
+    post_callback(raw, signature)
+    @transaction.reload.claim_dispense!
+
+    post_callback(raw, signature)
+
+    assert_response :success
+    assert @transaction.reload.dispensing?
+  end
+
+  test "a bad signature is rejected" do
+    raw, _signature = @gateway.build_callback(@transaction, status: "success")
+
+    post_callback(raw, "forged")
+
+    assert_response :unauthorized
+    assert @transaction.reload.pending?
+  end
+
+  test "an unknown external_id is a 404 so the gateway retries" do
+    @transaction.uuid = SecureRandom.uuid
+    raw, signature = @gateway.build_callback(@transaction, status: "success")
+
+    post_callback(raw, signature)
+
+    assert_response :not_found
   end
 end

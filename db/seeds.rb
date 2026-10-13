@@ -35,6 +35,15 @@ product_djarum = Product.create!(
   description: "Sweet and strong kretek with a distinctive red packaging."
 )
 
+puts "🖼️ Attaching product images..."
+{
+  product_sampoerna => "sampoerna-a-mild.png",
+  product_gudang_garam => "gudang-garam-surya-16.png",
+  product_djarum => "djarum-super.png"
+}.each do |product, file|
+  product.image.attach(io: File.open(Rails.root.join("db/seeds/images", file)), filename: file, content_type: "image/png")
+end
+
 puts "🗄️ Mapping Products to Physical Slots..."
 slot_1 = Slot.create!(
   machine: machine,

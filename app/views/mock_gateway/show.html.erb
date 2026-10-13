@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mock checkout</title>
+  <%= csrf_meta_tags %>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f4f4f5; margin: 0; padding: 24px 16px; color: #18181b; }
+    .card { max-width: 380px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #b45309; background: #fef3c7; padding: 4px 8px; border-radius: 6px; }
+    h1 { font-size: 28px; margin: 16px 0 4px; }
+    .muted { color: #71717a; font-size: 14px; margin: 0 0 20px; }
+    .status { font-weight: 600; margin-bottom: 20px; }
+    form { margin: 0 0 10px; }
+    button { width: 100%; padding: 14px; border: 0; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .pay { background: #16a34a; color: #fff; }
+    .fail { background: #e4e4e7; color: #3f3f46; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="tag">MOCK GATEWAY — NO REAL MONEY</span>
+    <h1>Rp <%= number_with_delimiter(@transaction.amount.to_i, delimiter: ".") %></h1>
+    <p class="muted"><%= @transaction.slot.product&.name %> · slot <%= @transaction.slot.slot_number %> · <%= @transaction.machine.location_name %></p>
+    <p class="status">Status: <%= @transaction.status.humanize %></p>
+    <% if @transaction.pending? %>
+      <%= button_to "Pay (success)", mock_gateway_checkout_complete_path(@transaction.uuid, result: "success"), class: "pay" %>
+      <%= button_to "Simulate failed payment", mock_gateway_checkout_complete_path(@transaction.uuid, result: "failed"), class: "fail" %>
+    <% end %>
+  </div>
+</body>
+</html>
