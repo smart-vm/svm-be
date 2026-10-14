@@ -1,7 +1,8 @@
 namespace :svm do
-  TEST_PRICES = [ 500, 1000, 1500 ].freeze
+  # RafflesPay's QRIS providers only accept Rp 2.000 and up in practice.
+  TEST_PRICES = [ 2000, 2500, 3000 ].freeze
 
-  desc "Add cheap test products (Rp 500 / 1.000 / 1.500) to a machine for real-payment testing. " \
+  desc "Add cheap test products (Rp 2.000 / 2.500 / 3.000) to a machine for real-payment testing. " \
        "MACHINE=<uuid or location name> (default: the first active machine), SLOTS=3,4,5"
   task test_products: :environment do
     machine =
@@ -24,7 +25,8 @@ namespace :svm do
       end
 
       slot = machine.slots.find_or_initialize_by(slot_number: number)
-      if slot.persisted? && slot.product && slot.product != product
+      # Replace an older test item; never a real product.
+      if slot.persisted? && slot.product && slot.product != product && !slot.product.name.start_with?("Test Item Rp ")
         puts "  slot #{number}: SKIPPED, holds #{slot.product.name}. Pick other slots with SLOTS=..."
         next
       end

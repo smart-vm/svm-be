@@ -25,7 +25,7 @@ module Payments
     end
 
     def gateway_name
-      ENV.fetch("PAYMENT_GATEWAY") { Rails.env.production? ? "raffles_pay" : "mock" }
+      ENV["PAYMENT_GATEWAY"].to_s.strip.presence || (Rails.env.production? ? "raffles_pay" : "mock")
     end
 
     def mock?
@@ -38,7 +38,8 @@ module Payments
 
     # Public base URL of this app; RafflesPay must reach it over HTTPS.
     def app_base_url
-      ENV.fetch("APP_BASE_URL") do
+      # Stripped: a stray space from an env file ends up inside the signed callback_url.
+      ENV["APP_BASE_URL"].to_s.strip.presence || begin
         raise ConfigurationError, "APP_BASE_URL is required in production" if Rails.env.production?
 
         "http://localhost:3000"

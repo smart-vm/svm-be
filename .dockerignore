@@ -49,3 +49,6 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+
+# RafflesPay signing keys: production gets them from Kamal secrets
+/config/rafflespay/*.pem

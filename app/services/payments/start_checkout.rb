@@ -56,6 +56,9 @@ module Payments
       price = @slot.product.price
       raise Invalid, "product has no price" unless price&.positive?
       raise Invalid, "price must be whole rupiah" unless price.frac.zero?
+      if @gateway.respond_to?(:minimum_amount) && price < @gateway.minimum_amount
+        raise Invalid, "price is below the payment minimum of Rp #{@gateway.minimum_amount}"
+      end
       raise Invalid, "unsupported payment method" unless Transaction::PAYMENT_METHODS.include?(@payment_method)
       if @payment_method == "emoney" && !Transaction::PAYMENT_CHANNELS.include?(@payment_channel)
         raise Invalid, "payment_channel is required for emoney"

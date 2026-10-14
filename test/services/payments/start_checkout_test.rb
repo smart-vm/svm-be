@@ -46,4 +46,15 @@ class Payments::StartCheckoutTest < ActiveSupport::TestCase
     end
     assert machines(:one).transactions.failed.where("failure_reason LIKE 'gateway_error%'").exists?
   end
+
+  test "refuses prices below the gateway minimum with a clear message" do
+    slots(:one).product.update!(price: 500)
+    gateway = Payments::MockGateway.new
+    def gateway.minimum_amount = 2_000
+
+    error = assert_raises(Payments::StartCheckout::Invalid) do
+      Payments::StartCheckout.call(machine: machines(:one), slot: slots(:one), gateway: gateway)
+    end
+    assert_equal "price is below the payment minimum of Rp 2000", error.message
+  end
 end

@@ -107,4 +107,11 @@ class Payments::RafflesPayGatewayTest < ActiveSupport::TestCase
     assert_nil transport.requests.first[:headers]["X-Signature"]
     assert_nil gateway(transport).fetch_status(@transaction.uuid)
   end
+
+  test "settings are trimmed so a stray space never reaches the signed body" do
+    ENV["APP_BASE_URL"] = "https://kiosk.example.com \n"
+    assert_equal "https://kiosk.example.com/api/v1/payments/webhook", Payments.callback_url
+  ensure
+    ENV.delete("APP_BASE_URL")
+  end
 end

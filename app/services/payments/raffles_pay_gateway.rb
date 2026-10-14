@@ -8,11 +8,17 @@ module Payments
     # QRIS payloads (EMVCo) always start with this; anything else in
     # qris_image_content is probably an image, not a string to encode.
     QRIS_PAYLOAD_PREFIX = "000201".freeze
+    # Smallest amount that actually goes through. The docs say 1,000, but on
+    # 2026-10-14 their QRIS providers refused Rp 1.000 and Rp 1.500 with 422
+    # "Cannot generate QRIS payment" while Rp 2.000 and up worked.
+    MINIMUM_AMOUNT = 2_000
 
     def self.from_env(transport: HttpTransport.new)
       new(
-        base_url: ENV.fetch("RAFFLESPAY_BASE_URL", "https://rafflespay.com"),
-        api_version: ENV.fetch("RAFFLESPAY_API_VERSION", "v1"),
+        base_url: ENV["RAFFLESPAY_BASE_URL"].to_s.strip.presence || "https://rafflespay.com",
+        # v1: on 2026-10-14 v2 rejected correctly signed requests with 401
+        # "Invalid signature" while v1 accepted the same requests.
+        api_version: ENV["RAFFLESPAY_API_VERSION"].to_s.strip.presence || "v1",
         client_id: fetch_env("RAFFLESPAY_CLIENT_ID"),
         client_secret: fetch_env("RAFFLESPAY_CLIENT_SECRET"),
         private_key_pem: read_pem("RAFFLESPAY_PRIVATE_KEY"),
@@ -23,14 +29,14 @@ module Payments
     end
 
     def self.fetch_env(name)
-      ENV[name].presence || raise(ConfigurationError, "#{name} is not set")
+      ENV[name].to_s.strip.presence || raise(ConfigurationError, "#{name} is not set")
     end
 
     # A PEM is multi-line, which env files handle badly. Prefer NAME_PATH
     # pointing at a .pem file; NAME with literal "\n" sequences also works.
     def self.read_pem(name)
-      if (path = ENV["#{name}_PATH"].presence)
-        File.read(path)
+      if (path = ENV["#{name}_PATH"].to_s.strip.presence)
+        File.read(Rails.root.join(path)) # relative paths are from the app root
       elsif (value = ENV[name].presence)
         value.gsub("\\n", "\n")
       else
@@ -50,6 +56,8 @@ module Payments
       @transport = transport
       @logger = logger
     end
+
+    def minimum_amount = MINIMUM_AMOUNT
 
     def create_charge(transaction)
       body = {
