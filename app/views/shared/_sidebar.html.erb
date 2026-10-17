@@ -1,8 +1,13 @@
-<aside class="erp-sidebar">
-  <%= render "shared/brand" %>
-  <%= render "shared/navigation", label: "Main navigation" %>
-  <div class="erp-account">
-    <p class="erp-account-email" title="<%= current_user.email %>"><%= current_user.email %></p>
-    <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "erp-sign-out", data: { turbo: false } %>
+<aside id="erp-sidebar" class="erp-sidebar" data-shell-target="sidebar">
+  <div class="erp-sidebar-brand">
+    <%= render "shared/brand" %>
+    <button type="button" class="erp-icon-button erp-drawer-close" aria-label="Close navigation" data-action="shell#closeMobile">
+      <%= erp_icon("close") %>
+    </button>
   </div>
+  <%= render "shared/navigation", label: "Main navigation" %>
+  <button type="button" class="erp-collapse-button" data-action="shell#toggleSidebar" data-shell-target="toggle" aria-controls="erp-sidebar" aria-expanded="true" aria-label="Collapse sidebar">
+    <%= erp_icon("collapse") %>
+    <span class="erp-nav-label">Collapse</span>
+  </button>
 </aside>

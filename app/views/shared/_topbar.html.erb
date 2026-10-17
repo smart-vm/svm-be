@@ -1,0 +1,26 @@
+<header class="erp-topbar" data-shell-target="topbar">
+  <div class="erp-topbar-context">
+    <button type="button" class="erp-icon-button" data-action="shell#toggleSidebar" data-shell-target="toggle" aria-controls="erp-sidebar" aria-expanded="true" aria-label="Collapse sidebar">
+      <%= erp_icon("panel") %>
+    </button>
+    <span class="erp-topbar-divider" aria-hidden="true"></span>
+    <span class="erp-section-name"><%= erp_current_section %></span>
+  </div>
+  <details class="erp-profile" data-shell-target="accountMenu">
+    <summary class="erp-profile-trigger" aria-label="Your account" data-shell-target="accountTrigger">
+      <span class="erp-avatar" aria-hidden="true"><%= erp_account_initials %></span>
+      <%= erp_icon("chevron") %>
+    </summary>
+    <div class="erp-profile-dropdown">
+      <div class="erp-profile-identity">
+        <p class="erp-profile-title">Your account</p>
+        <p class="erp-profile-email"><%= current_user.email %></p>
+      </div>
+      <%= button_to destroy_user_session_path, method: :delete, class: "erp-profile-sign-out", data: { turbo: false } do %>
+        <%= erp_icon("logout") %>
+        <span>Sign out</span>
+      <% end %>
+    </div>
+  </details>
+</header>
+<button type="button" class="erp-drawer-backdrop" aria-label="Close navigation" data-shell-target="backdrop" data-action="shell#closeMobile" hidden tabindex="-1"></button>

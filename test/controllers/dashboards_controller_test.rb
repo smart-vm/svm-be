@@ -29,6 +29,6 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match "2% more than yesterday", response.body
     assert_no_match "Sultan Alta", response.body
     assert_select "nav[aria-label='Main navigation'] a[aria-current=page]", text: "Overview"
-    assert_select "nav[aria-label='Mobile navigation'] a", count: 5
+    assert_select "aside#erp-sidebar nav a", count: 5
   end
 end

@@ -17,11 +17,12 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="erp-body bg-[#f8f9fa] text-gray-900 antialiased font-sans">
+  <body class="erp-body bg-[#f8f9fa] text-gray-900 antialiased font-sans"
+        <% if erp_shell? %>data-controller="shell" data-shell-collapsed-value="false" data-shell-mobile-open-value="false" data-action="click@window->shell#closeAccountOutside keydown@window->shell#handleKeydown turbo:before-cache@document->shell#prepareForCache"<% end %>>
     
-    <% if user_signed_in? %>
+    <% if erp_shell? %>
       <a class="erp-skip-link" href="#main-content">Skip to content</a>
-      <%= render "shared/mobile_navigation" %>
+      <%= render "shared/topbar" %>
     <% end %>
     <%= render "shared/flash_messages" %>
 

@@ -1,8 +1,4 @@
-<%# Vendora logo for the back-office sidebar. %>
-<div class="h-24 flex items-center justify-center flex-col pt-4">
-  <a href="<%= root_path %>" data-turbo="false" class="flex items-center gap-2">
-    <%= image_tag "vendora-mark.svg", alt: "", class: "h-7 w-auto" %>
-    <span class="text-2xl font-extrabold tracking-tight leading-none text-[#0F2A3D]">vendora</span>
-  </a>
-  <span class="text-[10px] text-gray-400 mt-1.5 tracking-wide">ERP System</span>
-</div>
+<a href="<%= root_path %>" class="erp-brand" aria-label="Vendora overview">
+  <%= image_tag "vendora-mark.svg", alt: "", class: "erp-brand-mark" %>
+  <span class="erp-brand-name">vendora</span>
+</a>

@@ -1,5 +1,9 @@
 <nav aria-label="<%= label %>" class="erp-navigation">
-  <% erp_navigation_items.each do |name, path, active| %>
-    <%= link_to name, path, class: "erp-nav-link", aria: { current: active ? "page" : nil } %>
+  <% erp_navigation_items.each_with_index do |(name, path, active), index| %>
+    <%= link_to path, class: "erp-nav-link", aria: { current: active ? "page" : nil, label: name }, title: name do %>
+      <%= erp_icon(%w[overview machines products transactions advertisements][index]) %>
+      <span class="erp-nav-label"><%= name %></span>
+      <span class="erp-nav-tooltip" data-label="<%= name %>" aria-hidden="true"></span>
+    <% end %>
   <% end %>
 </nav>
