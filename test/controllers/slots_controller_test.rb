@@ -49,6 +49,17 @@ class SlotsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "missing product shows validation instead of violating a database constraint" do
+    sign_in users(:one)
+    assert_no_difference("Slot.count") do
+      post slots_url, params: { slot: { machine_id: @machine.id, slot_number: 9, current_stock: 7, max_capacity: 12 } }
+    end
+    assert_response :unprocessable_entity
+    assert_select "li", text: "Product must exist"
+    assert_select "input[name='slot[current_stock]'][value='7']"
+    assert_select "input[name='slot[max_capacity]'][value='12']"
+  end
+
   test "should get edit" do
     sign_in users(:one)
 

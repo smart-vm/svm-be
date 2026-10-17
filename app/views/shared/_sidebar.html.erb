@@ -1,0 +1,8 @@
+<aside class="erp-sidebar">
+  <%= render "shared/brand" %>
+  <%= render "shared/navigation", label: "Main navigation" %>
+  <div class="erp-account">
+    <p class="erp-account-email" title="<%= current_user.email %>"><%= current_user.email %></p>
+    <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "erp-sign-out", data: { turbo: false } %>
+  </div>
+</aside>

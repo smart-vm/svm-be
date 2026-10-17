@@ -1,0 +1,35 @@
+Vendora ERP UX review
+Reviewed: 17 October 2026
+Scope: svm-be operator workflows, templates, controllers, models, and browser checks. This is an implementation review, not research with actual operators.
+
+Main finding
+The application has the right operational sections, but users encounter inconsistent navigation, misleading feedback, and some controls that promise actions the application does not implement. Clear, truthful behavior matters more than replacing the visual skin alone.
+
+Findings addressed in this change
+1. High: navigation disappears below the desktop breakpoint. Added shared desktop navigation, an accessible mobile menu, active-page indication, a skip link, and consistent Sign out on all operator screens. Removed duplicated sidebars to prevent future drift.
+2. High: most flash alerts are silently omitted by the layout; routine success messages open a blocking modal. Added visible, dismissible status/alert banners without interrupting the current workflow.
+3. High: the dashboard hard-codes a person's identity and unsupported growth/trend statements. Replaced the identity with the signed-in user, calculated new machines this month, removed unsupported trends, and displayed full settled revenue instead of rounding it to thousands.
+4. High: the ledger silently stops at 100 records. Added bounded pages, counts, search, status filtering, clear filters, and accessible pagination. Export now downloads only the displayed filtered page and says so. User-controlled export text is escaped to prevent spreadsheet formula execution.
+5. Medium: Export CSV and Receipt controls do nothing. Connected CSV export and replaced the fake Receipt action with expandable transaction details. No receipt-generation or provider-refund capability is claimed.
+6. Medium: stock-by-location information is hover-only. Replaced it with a native expandable control supporting tap and keyboard, with links to machine details. Preserved preloaded associations to avoid extra per-product stock queries.
+7. High: forms accept blank machine locations and invalid product fields; slot forms offer a no-product choice despite the database requiring a product. Added model feedback for these cases and aligned the slot selector with the existing database rule. Entered stock/capacity values survive failed slot creation.
+8. Medium: the add-machine dialog lacks focus management and can overflow a short display. Added a dialog name, focus trap/restoration, accessible Close control, and scrollable content. Closing a direct visit returns to the machine directory.
+9. Medium: machine details label configured active status as online and show a hard-coded connection mode. Replaced those claims with configured status and actual last contact. Disabled slots no longer appear as jammed. Stock bars are bounded to 0–100%.
+10. Medium: product forms use two-column spans even in a one-column mobile grid. Corrected the spans and added shared mobile spacing, table containment, visible keyboard focus, and reduced-motion handling.
+
+Design recommendations for the next iteration
+- Put exceptions first: refunds requiring action, uncertain deliveries, low stock, and stale contact should lead directly to a filtered task list. The current dashboard is mostly a summary.
+- Separate product catalog management from the refill task. A refill worker should find a location, see its slot/product/quantity, update, and confirm without traversing unrelated pages.
+- Agree on a heartbeat freshness threshold before adding Online/Offline badges; show unknown for never-contacted machines. A saved active flag does not prove connectivity.
+- Agree on one low-stock rule. The dashboard currently counts slots below 5 units, the product catalog flags aggregate stock at 10 units or below, and machine bars are percentage-based. These measure different things and should be explicitly labeled or unified through product requirements.
+- Add indexed, server-side machine/product search and filters, and date/machine filters for the ledger as data grows. Only the transaction search/status/pagination are implemented in this pass.
+- Show configured timezone on operational timestamps. Financial daily totals currently follow the Rails application's timezone; changing it needs a deliberate reporting decision.
+- Make terminology consistent: Machines, Products & stock, Slot, Refill, Last contact, and Transaction. Avoid hardware jargon in routine operator tasks.
+- Establish a unified visual system using the existing navy/teal Vendora logo, readable light surfaces, restrained cards, consistent actions, and semantic status colors. The implementation retains most existing page styling; the Lovable prompt specifies the larger redesign.
+
+Proposed redesign specification
+See docs/lovable-vendora-prompt.txt. It is ready to paste into Lovable and distinguishes existing behaviors from proposed capabilities. A Lovable prototype requires a deliberate integration step before it can replace Rails views.
+
+Validation
+Automated: final suite passed with 114 tests, 371 assertions, no failures/errors/skips. Ruby lint passed for the 11 modified Ruby files, JavaScript syntax checks passed, and the Tailwind build completed. Browser checks used local test fixtures at 375px and 1440px: navigation works, no document-level horizontal overflow on the ledger, filters submit and clear, stock details expand using the keyboard, and the add-machine dialog traps focus, closes with Escape, restores focus, and releases its scroll lock. Browser inspection caught and corrected a conflicting filter-button style. Preview captures are in tmp/ux-review (ignored local artifacts).
+No production database migration or deployment is part of this change. Existing records with blank machine locations or invalid product fields will need correction before saving edits under the new validation rules.

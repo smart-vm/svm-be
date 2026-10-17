@@ -6,6 +6,8 @@ class Machine < ApplicationRecord
   has_secure_token :api_token, length: 32
 
   validates :uuid, presence: true, uniqueness: true
+  validates :location_name, presence: true
+  validates :status, inclusion: { in: %w[active maintenance inactive] }
 
   before_validation :set_uuid, on: :create
 

@@ -1,0 +1,9 @@
+<div class="erp-flashes">
+  <% { notice: notice, alert: alert }.each do |kind, message| %>
+    <% next if message.blank? %>
+    <div class="erp-flash erp-flash-<%= kind %>" role="<%= kind == :alert ? 'alert' : 'status' %>" data-controller="flash">
+      <p><%= message %></p>
+      <button type="button" aria-label="Dismiss notification" data-action="flash#dismiss">×</button>
+    </div>
+  <% end %>
+</div>

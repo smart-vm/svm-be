@@ -14,11 +14,7 @@
       
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6", data: { turbo: false } }) do |f| %>
         
-        <% if flash[:alert] %>
-          <div class="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium border border-red-100">
-            <%= flash[:alert] %>
-          </div>
-        <% end %>
+
 
         <div>
           <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>

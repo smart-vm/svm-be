@@ -1,0 +1,5 @@
+<nav aria-label="<%= label %>" class="erp-navigation">
+  <% erp_navigation_items.each do |name, path, active| %>
+    <%= link_to name, path, class: "erp-nav-link", aria: { current: active ? "page" : nil } %>
+  <% end %>
+</nav>

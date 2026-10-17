@@ -3,6 +3,7 @@ class DashboardsController < ApplicationController
     today = Time.current.beginning_of_day..Time.current.end_of_day
 
     @total_machines = Machine.count
+    @new_machines_this_month = Machine.where(created_at: Time.current.beginning_of_month..Time.current).count
     @items_sold_today = Transaction.settled.where(created_at: today).count
     @today_revenue = Transaction.settled.where(created_at: today).sum(:amount)
     @low_stock_count = Slot.where("current_stock < ?", 5).count

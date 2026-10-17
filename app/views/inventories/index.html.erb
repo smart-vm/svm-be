@@ -1,36 +1,8 @@
 <div class="flex h-screen bg-[#f8f9fa] font-sans text-gray-800">
   
-  <aside class="w-64 bg-white border-r border-gray-100 flex flex-col hidden md:flex">
-    <%= render "shared/brand" %>
-    
-    <nav class="flex-1 px-4 mt-8 space-y-1">
-      <a href="<%= root_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-        Dashboard
-      </a>
-      
-      <a href="<%= machines_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-        Machines
-      </a>
-      
-      <a href="<%= inventories_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-        Inventory
-      </a>
+  <%= render "shared/sidebar" %>
 
-      <a href="<%= transactions_path %>" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-        Transactions
-      </a>
-      <a href="<%= advertisements_path %>" data-turbo="false" class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg font-medium text-sm transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-        Advertisements
-      </a>
-    </nav>
-  </aside>
-
-  <main class="flex-1 flex flex-col overflow-y-auto">
+  <main id="main-content" tabindex="-1" class="flex-1 min-w-0 flex flex-col overflow-y-auto">
     
     <header class="h-24 flex items-center justify-between px-8 bg-[#f8f9fa]">
       <div>
@@ -52,17 +24,17 @@
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="text-xs font-semibold text-gray-500 border-b border-gray-100 bg-gray-50/50">
-                <th class="py-4 px-4 rounded-tl-lg">Product Name</th>
-                <th class="py-4 px-4">Price (Rp)</th>
-                <th class="py-4 px-4 text-center">Global Stock</th>
-                <th class="py-4 px-4">Active Deployments</th>
-                <th class="py-4 px-4">Status</th>
-                <th class="py-4 px-4 text-right rounded-tr-lg">Action</th>
+                <th scope="col" class="py-4 px-4 rounded-tl-lg">Product Name</th>
+                <th scope="col" class="py-4 px-4">Price (Rp)</th>
+                <th scope="col" class="py-4 px-4 text-center">Global Stock</th>
+                <th scope="col" class="py-4 px-4">Stock by machine</th>
+                <th scope="col" class="py-4 px-4">Status</th>
+                <th scope="col" class="py-4 px-4 text-right rounded-tr-lg">Action</th>
               </tr>
             </thead>
             <tbody class="text-sm">
               <% @products.each do |product| %>
-                <% total_stock = product.slots.sum(:current_stock).to_i %>
+                <% total_stock = product.slots.sum { |slot| slot.current_stock.to_i } %>
                 <% active_machines = product.slots.map(&:machine_id).uniq.size %>
                 
                 <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
@@ -84,33 +56,25 @@
                   <td class="py-4 px-4 font-mono text-xs text-gray-500"><%= number_with_delimiter(product.price.to_i, delimiter: '.') %></td>
                   
                   <td class="py-4 px-4 text-center">
-                    <span class="font-bold <%= total_stock < 10 ? 'text-red-500' : 'text-gray-700' %>"><%= total_stock %></span>
+                    <span class="font-bold <%= total_stock <= 10 ? 'text-red-500' : 'text-gray-700' %>"><%= total_stock %></span>
                   </td>
                   
                   <td class="py-4 px-4 text-gray-500 text-xs">
-                    <div class="relative inline-flex items-center gap-1.5 group cursor-help">
-                      <span>In <%= active_machines %> <%= 'machine'.pluralize(active_machines) %></span>
-                      
-                      <% if active_machines > 0 %>
-                        <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        
-                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 transform scale-95 group-hover:scale-100">
-                          <div class="font-bold text-gray-100 mb-2 border-b border-gray-700 pb-2">Stock per Location</div>
-                          <ul class="space-y-1.5">
-                            <% product.slots.includes(:machine).group_by(&:machine).each do |machine, slots| %>
-                              <% machine_stock = slots.sum(&:current_stock).to_i %>
-                              <li class="flex justify-between items-center">
-                                <span class="truncate max-w-[160px] font-medium text-gray-300"><%= machine.location_name %></span>
-                                <span class="text-blue-400 font-bold font-mono"><%= machine_stock %> pcs</span>
-                              </li>
-                            <% end %>
-                          </ul>
-                          <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
-                        </div>
-                      <% end %>
-                    </div>
+                    <% if active_machines > 0 %>
+                      <details class="erp-stock-details">
+                        <summary>In <%= pluralize(active_machines, "machine") %></summary>
+                        <ul>
+                          <% product.slots.group_by(&:machine).each do |machine, slots| %>
+                            <li>
+                              <%= link_to machine.location_name, machine_path(machine) %>
+                              <span><%= slots.sum { |slot| slot.current_stock.to_i } %> pcs</span>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </details>
+                    <% else %>
+                      Not assigned
+                    <% end %>
                   </td>
                   
                   <td class="py-4 px-4">
@@ -131,7 +95,7 @@
                   
                   <td class="py-4 px-4 text-right">
                     <div class="flex items-center justify-end">
-                      <a href="<%= edit_inventory_path(product) %>" data-turbo="false" title="Edit Product Catalog" class="text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors flex items-center justify-center">
+                      <a href="<%= edit_inventory_path(product) %>" data-turbo="false" title="Edit Product Catalog" aria-label="Edit product <%= product.name %>" class="text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors flex items-center justify-center">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>

@@ -17,6 +17,23 @@ class InventoriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "invalid product shows validation feedback and retains entered fields" do
+    sign_in users(:one)
+    assert_no_difference("Product.count") do
+      post inventories_url, params: { product: { name: "Potato chips", price: -1 } }
+    end
+    assert_response :unprocessable_entity
+    assert_select "input[name='product[name]'][value='Potato chips']"
+    assert_select "li", text: /Price must be greater than 0/
+  end
+
+  test "stock locations are available using an expandable control" do
+    sign_in users(:one)
+    get inventories_url
+    assert_select "details.erp-stock-details summary", text: /machine/
+    assert_select "details.erp-stock-details a[href=?]", machine_path(machines(:one))
+  end
+
   test "create attaches uploaded image to the product" do
     sign_in users(:one)
 

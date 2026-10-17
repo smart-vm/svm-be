@@ -24,6 +24,16 @@ class MachinesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "invalid machine details show errors rather than creating a blank machine" do
+    sign_in users(:one)
+    assert_no_difference("Machine.count") do
+      post machines_url, params: { machine: { location_name: "", status: "active" } }
+    end
+    assert_response :unprocessable_entity
+    assert_select "[role=alert]", text: /Location name can't be blank/
+    assert_select "[role=dialog][aria-modal=true]", count: 1
+  end
+
   test "create with valid params deploys a new machine" do
     sign_in users(:one)
 
