@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require_relative "../lib/middleware/host_split"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -14,7 +15,12 @@ module SvmBe
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: %w[assets tasks middleware])
+
+    # Separate the public API from the back office by hostname (see HostSplit).
+    config.x.api_host = ENV["API_HOST"].to_s.strip.downcase.presence
+    config.x.cms_host = ENV["CMS_HOST"].to_s.strip.downcase.presence
+    config.middleware.insert_before 0, Middleware::HostSplit
 
     # Configuration for the application, engines, and railties goes here.
     #
