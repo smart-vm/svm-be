@@ -2,7 +2,7 @@ namespace :svm do
   SAMPLE_ADS = [
     { title: "Fresh Lime Soda (sample)", file: "fresh-lime-soda.png", position: 1 },
     { title: "Kafe Sebelah — Kopi Pagi (sample)", file: "kopi-pagi.png", position: 2 },
-    { title: "SmartVend — Bayar pakai QRIS (sample)", file: "smartvend-qris.png", position: 3 }
+    { title: "Vendora — Bayar pakai QRIS (sample)", file: "vendora-qris.png", position: 3 }
   ].freeze
 
   desc "Add three sample (non-tobacco) ads so the kiosk ad space has content"

@@ -8,7 +8,7 @@ class Users::SessionsController < Devise::SessionsController
   #   # Render modal sukses setelah login
   #   render partial: 'shared/success_modal', locals: {
   #     title: "Welcome Back!",
-  #     message: "You have been authenticated successfully. Welcome to Vending Machine Kiosk ERP.",
+  #     message: "You have been authenticated successfully. Welcome to Vendora ERP.",
   #     redirect_path: root_path
   #   }
   # end

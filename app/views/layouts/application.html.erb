@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vending Machine Kiosk ERP</title>
+    <title>Vendora ERP</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0F2A3D">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     
@@ -17,7 +22,7 @@
     <!-- Flash Messages Handler -->
     <% if notice.present? %>
       <% if notice == "Signed in successfully." %>
-        <%= render partial: 'shared/success_modal', locals: { title: "Welcome Back!", message: "You have been authenticated successfully. Welcome to Vending Machine Kiosk ERP." } %>
+        <%= render partial: 'shared/success_modal', locals: { title: "Welcome Back!", message: "You have been authenticated successfully. Welcome to Vendora ERP." } %>
       <% else %>
         <%= render partial: 'shared/success_modal', locals: { title: "Success!", message: notice } %>
       <% end %>

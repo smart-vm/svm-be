@@ -1,3 +1,6 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#0F2A3D"/>
+  <g transform="translate(56 128) scale(3.4)"><defs><mask id="m3"><rect x="-5" y="-5" width="130" height="90" fill="white"/><path d="M39,42 L79,42 L84.5,76 L33.5,76 Z" fill="black"/></mask></defs>
+  <path d="M2,1.5 L35.5,1.5 L59,43 L82.5,1.5 L116,1.5 Q118.5,1.5 117.4,3.8 L84.5,65 L34,65 L0.8,3.8 Q-0.3,1.5 2,1.5 Z" fill="#12A497" mask="url(#m3)"/>
+  <path d="M43,50.5 L75,50.5 Q77,50.5 77.5,52.5 L81,70.5 Q81.5,73.5 78.5,73.5 L39.5,73.5 Q36.5,73.5 37,70.5 L40.5,52.5 Q41,50.5 43,50.5 Z" fill="#FFFFFF"/></g>
 </svg>

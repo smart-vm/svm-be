@@ -32,5 +32,8 @@ Rails.application.routes.draw do
   get "mock_gateway/checkouts/:uuid", to: "mock_gateway#show", as: :mock_gateway_checkout
   post "mock_gateway/checkouts/:uuid/complete", to: "mock_gateway#complete", as: :mock_gateway_checkout_complete
 
+  # Web app manifest (icons + name when the back office is added to a home screen).
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
   mount ActionCable.server => "/cable"
 end
