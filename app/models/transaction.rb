@@ -102,7 +102,7 @@ class Transaction < ApplicationRecord
       case outcome
       when "success"
         update!(status: "settled", vend_result: result, dispensed_at: Time.current, failure_reason: nil)
-        Slot.where(id: slot_id).where("current_stock > 0").update_all("current_stock = current_stock - 1")
+        slot.consume_stock_for_sale!(at: dispensed_at)
       when "failed", "aborted", "timeout"
         # The board confirmed nothing dropped (or the motor never ran).
         update!(status: "refund_required", vend_result: result, failure_reason: "vend_#{outcome}")
@@ -139,8 +139,10 @@ class Transaction < ApplicationRecord
       next false unless resolvable?
 
       if outcome == "settled"
-        update!(status: "settled", dispensed_at: dispensed_at || Time.current)
-        Slot.where(id: slot_id).where("current_stock > 0").update_all("current_stock = current_stock - 1")
+        # The product reached the customer, so the old failure no longer applies.
+        # The board's original report stays in vend_result.
+        update!(status: "settled", dispensed_at: dispensed_at || Time.current, failure_reason: nil)
+        slot.consume_stock_for_sale!(at: dispensed_at)
       else
         update!(status: "refunded")
       end

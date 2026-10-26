@@ -127,6 +127,19 @@
                 <% end %>
               </div>
 
+              <% batch = @latest_stock_batches[slot.id] %>
+              <div class="mt-3 mb-3 text-xs text-gray-600 space-y-1">
+                <p><span class="font-medium">Batch sell-through:</span> <%= stock_batch_sell_through(batch) %></p>
+                <% completed = @last_sold_out_batches[slot.id] %>
+                <% if completed && completed.id != batch&.id %>
+                  <p class="text-teal-700">Last sold-out batch: <%= stock_batch_sell_through(completed) %></p>
+                <% end %>
+                <% if batch %>
+                  <p><%= batch.sold_quantity %> / <%= batch.quantity %> units sold in latest batch</p>
+                  <p>Stocked (<%= Time.zone.name %>): <%= batch.stocked_at ? l(batch.stocked_at, format: :short) : 'Unknown (existing stock)' %></p>
+                <% end %>
+              </div>
+
               <div class="flex items-center justify-between text-[11px]">
                 <span class="text-gray-400">Track Status:</span>
                 <% if slot.status == "operational" %>
@@ -154,6 +167,39 @@
         </a>
       </div>
 
+      <section class="bg-white rounded-2xl border border-gray-100 p-6" aria-labelledby="stock-batches-title">
+        <h2 id="stock-batches-title" class="text-lg font-bold text-gray-900">Stock batch history</h2>
+        <p class="mt-1 mb-4 text-xs text-gray-500">Latest 50 batches. Top-ups create separate batches; sales consume oldest stock first (FIFO). Manual stock reductions or product changes are adjustments, not sales.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="text-xs text-gray-500 border-b border-gray-100">
+                <th scope="col" class="p-3">Slot / product</th>
+                <th scope="col" class="p-3">Stocked at (<%= Time.zone.name %>)</th>
+                <th scope="col" class="p-3">Batch quantity</th>
+                <th scope="col" class="p-3">Sold / remaining</th>
+                <th scope="col" class="p-3">Sold out at (<%= Time.zone.name %>)</th>
+                <th scope="col" class="p-3">Time to sell out</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @recent_stock_batches.each do |batch| %>
+                <tr class="border-b border-gray-50">
+                  <td class="p-3">#<%= batch.slot.slot_number %> · <%= batch.product.name %></td>
+                  <td class="p-3 text-xs"><%= batch.stocked_at ? l(batch.stocked_at, format: :short) : 'Unknown (existing stock)' %></td>
+                  <td class="p-3"><%= batch.quantity %></td>
+                  <td class="p-3"><%= batch.sold_quantity %> / <%= batch.remaining_quantity %><% if batch.adjusted? %><span class="block text-xs text-amber-700"><%= batch.quantity - batch.remaining_quantity - batch.sold_quantity %> adjusted out</span><% end %></td>
+                  <td class="p-3 text-xs"><%= batch.sold_out_at ? l(batch.sold_out_at, format: :short) : '—' %></td>
+                  <td class="p-3 font-medium"><%= stock_batch_sell_through(batch) %></td>
+                </tr>
+              <% end %>
+              <% if @recent_stock_batches.empty? %>
+                <tr><td colspan="6" class="p-6 text-center text-gray-500">No batches recorded yet. Tracking starts with the next stock refill; existing stock has no known start time.</td></tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   </main>
 </div>

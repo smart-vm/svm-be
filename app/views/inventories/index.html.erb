@@ -29,6 +29,7 @@
                 <th scope="col" class="py-4 px-4 text-center">Global Stock</th>
                 <th scope="col" class="py-4 px-4">Stock by machine</th>
                 <th scope="col" class="py-4 px-4">Status</th>
+                <th scope="col" class="py-4 px-4">Batch sell-through</th>
                 <th scope="col" class="py-4 px-4 text-right rounded-tr-lg">Action</th>
               </tr>
             </thead>
@@ -93,6 +94,24 @@
                     <% end %>
                   </td>
                   
+                  <td class="py-4 px-4 text-xs text-gray-600">
+                    <% if product.slots.empty? %>
+                      Not assigned
+                    <% else %>
+                      <div class="space-y-3">
+                        <% product.slots.each do |slot| %>
+                          <div>
+                            <%= link_to "#{slot.machine.location_name} · Slot #{slot.slot_number}", machine_path(slot.machine), class: "text-teal-700 font-medium" %>
+                            <p class="mt-1"><%= stock_batch_sell_through(@latest_stock_batches[slot.id]) %></p>
+                            <% completed = @last_sold_out_batches[slot.id] %>
+                            <% if completed && completed.id != @latest_stock_batches[slot.id]&.id %>
+                              <p class="mt-1 text-teal-700">Last sold out: <%= stock_batch_sell_through(completed) %></p>
+                            <% end %>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </td>
                   <td class="py-4 px-4 text-right">
                     <div class="flex items-center justify-end">
                       <a href="<%= edit_inventory_path(product) %>" data-turbo="false" title="Edit Product Catalog" aria-label="Edit product <%= product.name %>" class="text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors flex items-center justify-center">
@@ -107,12 +126,13 @@
               <% end %>
               <% if @products.empty? %>
                 <tr>
-                  <td colspan="6" class="py-8 text-center text-gray-400 text-sm">No products in the catalog yet.</td>
+                  <td colspan="7" class="py-8 text-center text-gray-400 text-sm">No products in the catalog yet.</td>
                 </tr>
               <% end %>
             </tbody>
           </table>
         </div>
+        <p class="mt-4 text-xs text-gray-500">Sell-through measures the time from a refill until every unit in that batch is sold. Sales use oldest stock first (FIFO). Existing stock has no recorded refill time. Open a machine to see its recent batch history.</p>
       </div>
     </div>
 

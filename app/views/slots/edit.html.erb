@@ -41,6 +41,7 @@
           </div>
 
           <!-- Stock Configuration -->
+          <p class="text-xs text-gray-500">Increasing stock creates a new timed batch for the added units. Reducing stock records an adjustment, not a sale. Existing units keep their original batch.</p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <%= f.label :current_stock, "Current Stock (pcs)", class: "block text-sm font-medium text-gray-700 mb-2" %>

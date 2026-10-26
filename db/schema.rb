@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_13_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_26_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -100,6 +100,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_100000) do
     t.index ["product_id"], name: "index_slots_on_product_id"
   end
 
+  create_table "stock_batches", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.integer "remaining_quantity", null: false
+    t.bigint "slot_id", null: false
+    t.datetime "sold_out_at"
+    t.integer "sold_quantity", default: 0, null: false
+    t.datetime "stocked_at"
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stock_batches_on_product_id"
+    t.index ["slot_id", "id"], name: "index_stock_batches_on_slot_id_and_id"
+    t.index ["slot_id"], name: "index_stock_batches_on_slot_id"
+    t.check_constraint "quantity > 0 AND remaining_quantity >= 0 AND sold_quantity >= 0 AND (remaining_quantity + sold_quantity) <= quantity", name: "stock_batches_valid_quantities"
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.decimal "amount", precision: 12, scale: 2
     t.jsonb "callback_payload", default: {}, null: false
@@ -150,6 +166,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_100000) do
   add_foreign_key "advertisement_machines", "machines"
   add_foreign_key "slots", "machines"
   add_foreign_key "slots", "products"
+  add_foreign_key "stock_batches", "products"
+  add_foreign_key "stock_batches", "slots"
   add_foreign_key "transactions", "machines"
   add_foreign_key "transactions", "slots"
 end

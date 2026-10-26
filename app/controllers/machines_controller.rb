@@ -33,6 +33,9 @@ class MachinesController < ApplicationController
   def show
     @machine = Machine.find(params[:id])
     @slots = @machine.slots.includes(:product).order(:slot_number)
+    @latest_stock_batches = StockBatch.latest_for_slots(@slots.map(&:id))
+    @last_sold_out_batches = StockBatch.latest_for_slots(@slots.map(&:id), completed_only: true)
+    @recent_stock_batches = StockBatch.where(slot_id: @slots.map(&:id)).includes(:product, :slot).order(id: :desc).limit(50)
   end
 
   private

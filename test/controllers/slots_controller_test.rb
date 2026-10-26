@@ -75,4 +75,15 @@ class SlotsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to machine_path(@slot.machine)
     assert_equal 3, @slot.reload.current_stock
   end
+
+  test "refilling records only the added units and keeps legacy start time unknown" do
+    sign_in users(:one)
+    patch slot_url(@slot), params: { slot: { current_stock: 8 } }
+
+    assert_redirected_to machine_path(@slot.machine)
+    batches = @slot.stock_batches.order(:id).to_a
+    assert_equal [ 5, 3 ], batches.map(&:quantity)
+    assert_nil batches.first.stocked_at
+    assert_not_nil batches.last.stocked_at
+  end
 end
