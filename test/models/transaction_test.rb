@@ -126,10 +126,12 @@ class TransactionStateMachineTest < ActiveSupport::TestCase
   end
 
   test "back office can resolve refunds and reviews" do
-    @transaction.update!(status: "needs_review")
+    @transaction.update!(status: "needs_review", failure_reason: "vend_unknown", vend_result: { "outcome" => "unknown" })
     assert_difference -> { @transaction.slot.reload.current_stock }, -1 do
       assert @transaction.resolve!("settled")
     end
+    assert_nil @transaction.reload.failure_reason
+    assert_equal "unknown", @transaction.vend_result["outcome"]
 
     @transaction.update!(status: "refund_required")
     assert @transaction.resolve!("refunded")

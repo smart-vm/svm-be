@@ -34,6 +34,25 @@ class InventoriesControllerTest < ActionDispatch::IntegrationTest
     assert_select "details.erp-stock-details a[href=?]", machine_path(machines(:one))
   end
 
+  test "inventory displays batch completion time and machine history preserves it" do
+    slot = slots(:one)
+    batch = StockBatch.create!(slot: slot, product: slot.product, quantity: 5, sold_quantity: 5,
+      remaining_quantity: 0, stocked_at: 3.days.ago, sold_out_at: 1.day.ago + 3.hours)
+    StockBatch.create!(slot: slot, product: slot.product, quantity: 4, remaining_quantity: 4, stocked_at: Time.current)
+    sign_in users(:one)
+
+    get inventories_url
+    assert_response :success
+    assert_select "th", text: "Batch sell-through"
+    assert_select "td p", text: "Not sold out"
+    assert_select "td p", text: "Last sold out: 2d 3h 0m"
+
+    get machine_url(slot.machine)
+    assert_response :success
+    assert_select "section[aria-labelledby=stock-batches-title]", text: /2d 3h 0m/
+    assert_equal 2.days + 3.hours, batch.sell_through_seconds
+  end
+
   test "create attaches uploaded image to the product" do
     sign_in users(:one)
 

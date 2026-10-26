@@ -3,6 +3,8 @@ class InventoriesController < ApplicationController
 
   def index
     @products = Product.includes(slots: :machine).order(created_at: :desc)
+    @latest_stock_batches = StockBatch.latest_for_slots(@products.flat_map(&:slots).map(&:id))
+    @last_sold_out_batches = StockBatch.latest_for_slots(@products.flat_map(&:slots).map(&:id), completed_only: true)
   end
 
   def new

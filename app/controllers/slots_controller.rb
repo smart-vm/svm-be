@@ -21,7 +21,7 @@ class SlotsController < ApplicationController
   end
 
   def update
-    if @slot.update(slot_params)
+    if @slot.with_lock { @slot.update(slot_params) }
       redirect_to machine_path(@slot.machine), notice: "Slot #{@slot.slot_number} was successfully updated."
     else
       render :edit, status: :unprocessable_entity

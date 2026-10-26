@@ -1,0 +1,3 @@
+# Keep batch data isolated when Rails reloads the related slot/product fixtures.
+# Individual scenarios create dated batches with their own controlled clock.
+{}
